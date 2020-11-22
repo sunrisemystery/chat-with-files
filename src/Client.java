@@ -67,7 +67,7 @@ public class Client {
         }
     }
 
-    void sendMessage(Message message) {
+    private void sendMessage(Message message) {
         try {
             objectOutputStream.writeObject(message);
         } catch (IOException e) {

@@ -2,7 +2,9 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 
-    static final int MESSAGE = 1, LOGOUT = 2, PICK = 3;
+    public static final int MESSAGE = 1;
+    public static final int LOGOUT = 2;
+    public static final int PICK = 3;
     private int type;
     private String message;
 
@@ -10,11 +12,11 @@ public class Message implements Serializable {
         this.type = type;
         this.message = message;
     }
-    int getType() {
+    public int getType() {
         return type;
     }
 
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 

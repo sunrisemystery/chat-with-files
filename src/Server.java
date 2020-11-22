@@ -54,7 +54,7 @@ public class Server {
         }
     }
 
-    protected void stop() {
+    public void stop() {
         isOn = false;
         try {
             new Socket("localhost", port);
@@ -63,8 +63,8 @@ public class Server {
         }
     }
 
-    private void display(String msg) {
-        String time = dateFormat.format(new Date()) + " " + msg;
+    private void display(String message) {
+        String time = dateFormat.format(new Date()) + " " + message;
         System.out.println(time);
     }
 
@@ -79,7 +79,7 @@ public class Server {
             }
 
         } catch (IllegalArgumentException e) {
-            
+
             String time = dateFormat.format(new Date());
             String timeMessage = time + " " + message + "\n";
             System.out.print(timeMessage);
@@ -97,7 +97,7 @@ public class Server {
         return true;
     }
 
-    synchronized void disconnectClient(int id) {
+    private synchronized void disconnectClient(int id) {
         String disconnectedClient = "";
         for (int i = 0; i < clientThreadArrayList.size(); ++i) {
             ClientThread clientThread = clientThreadArrayList.get(i);
@@ -118,14 +118,13 @@ public class Server {
     }
 
     class ClientThread extends Thread {
-        Socket socket;
-        ObjectInputStream objectInputStream;
-        ObjectOutputStream objectOutputStream;
-        TextHandler textHandler = new TextHandler();
-        int id;
-        String username;
-        Message chatMessage;
-        String date;
+        private Socket socket;
+        private ObjectInputStream objectInputStream;
+        private ObjectOutputStream objectOutputStream;
+        private Handler textHandler = new TextHandler();
+        private int id;
+        private String username;
+        private Message chatMessage;
 
         ClientThread(Socket socket) {
             id = ++uniqueId;
@@ -137,16 +136,12 @@ public class Server {
                 broadcast(notificationSign + username + " has joined the chat." + notificationSign);
             } catch (IOException e) {
                 display("Exception creating new Input/output Streams: " + e);
-                return;
+
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            date = new Date().toString() + "\n";
         }
 
-        public String getUsername() {
-            return username;
-        }
 
         private String sendFile(String path) {
 
@@ -255,6 +250,9 @@ public class Server {
                 display(e.toString());
             }
             return true;
+        }
+        public String getUsername() {
+            return username;
         }
     }
 }
