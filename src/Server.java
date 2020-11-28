@@ -1,10 +1,13 @@
-
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
 
 public class Server {
 
@@ -76,6 +79,7 @@ public class Server {
                 ClientThread clientThread = clientThreadArrayList.get(i);
                 String filename = clientThread.receiveFile(message);
                 clientThread.writeMessage(clientThread.textHandler.handleRequest(filename));
+
             }
 
         } catch (IllegalArgumentException e) {
@@ -134,6 +138,7 @@ public class Server {
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 username = (String) objectInputStream.readObject();
                 broadcast(notificationSign + username + " has joined the chat." + notificationSign);
+
             } catch (IOException e) {
                 display("Exception creating new Input/output Streams: " + e);
 
@@ -161,6 +166,7 @@ public class Server {
             String outputFileName = "image.bmp";
             FileOutputStream fileOutputStream;
             BufferedOutputStream bufferedOutputStream;
+            try{
             byte[] decodedBytes = Base64.getDecoder().decode(bytes);
             InputStream byteArrayInputStream = new ByteArrayInputStream(decodedBytes);
             try {
@@ -179,6 +185,9 @@ public class Server {
                 bufferedOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }}
+            catch (NullPointerException e){
+                System.out.println("Choose a file");
             }
             return outputFileName;
 
@@ -251,6 +260,7 @@ public class Server {
             }
             return true;
         }
+
         public String getUsername() {
             return username;
         }

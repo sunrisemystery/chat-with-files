@@ -12,6 +12,7 @@ public class Message implements Serializable {
         this.type = type;
         this.message = message;
     }
+
     public int getType() {
         return type;
     }
